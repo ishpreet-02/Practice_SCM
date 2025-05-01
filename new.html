@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI-Powered Chat</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        .chat-box { max-width: 500px; margin: auto; }
+        .messages { margin: 20px 0; padding: 10px; border: 1px solid #ddd; border-radius: 5px; }
+        .input-box { width: 100%; padding: 10px; }
+        button { padding: 10px 20px; margin-top: 10px; }
+    </style>
+</head>
+<body>
+    <div class="chat-box">
+        <h2>Ask Anything!</h2>
+        <div id="messages" class="messages"></div>
+        <input type="text" id="userInput" class="input-box" placeholder="Type your question..." />
+        <button onclick="askQuestion()">Ask</button>
+    </div>
+
+    <script>
+        async function askQuestion() {
+            const userInput = document.getElementById("userInput").value;
+            const messagesDiv = document.getElementById("messages");
+
+            // Display user input
+            const userMessage = document.createElement("p");
+            userMessage.textContent = `You: ${userInput}`;
+            messagesDiv.appendChild(userMessage);
+
+            // Call the backend API to get AI's response
+            const response = await fetch('/ask-ai', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ question: userInput })
+            });
+            const data = await response.json();
+
+            // Display AI's response
+            const aiMessage = document.createElement("p");
+            aiMessage.textContent = `AI: ${data.answer}`;
+            messagesDiv.appendChild(aiMessage);
+
+            // Clear input box
+            document.getElementById("userInput").value = '';
+        }
+    </script>
+</body>
+</html>
