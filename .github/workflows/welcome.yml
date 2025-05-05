@@ -1,0 +1,24 @@
+name: Thank Contributor on Push
+
+on:
+  push:
+    branches:
+      - ''
+
+jobs:
+  thank:
+    runs-on: windows-latest
+
+    steps:
+    - name: Get contributor name
+      run: |
+        $actor = "${{ github.actor }}"
+        Write-Host "Actor: $actor"
+        
+        if ($actor -eq "Mohit-chechi") {
+          Write-Host "Thanks for your contribution, Mohit-chechi!"
+        } elseif ($actor -eq "Mohit-jpg-dot") {
+          Write-Host "Thanks for your contribution, Mohit-jpg-dot!"
+        } else {
+          Write-Host "Thanks for your contribution, $actor!"
+        }
